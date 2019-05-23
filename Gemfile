@@ -63,3 +63,9 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Lint
 gem 'rubocop', '~> 0.59.2', require: false
+
+# Devise token auth
+gem 'devise_token_auth', '1.0.0'
+
+# Devise
+gem 'devise', '4.5.0'
