@@ -2,7 +2,6 @@
 
 class User < ApplicationRecord
   has_many :rents, dependent: :nullify
-  
   validates :first_name, :last_name, presence: true
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
