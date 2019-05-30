@@ -78,3 +78,9 @@ gem 'devise_token_auth', '1.0.0'
 
 # Devise
 gem 'devise', '4.5.0'
+
+# Active model serializer
+gem 'active_model_serializers', '~> 0.10.9'
+
+# Wor paginate
+gem 'wor-paginate', '~> 0.1.4'
