@@ -3,7 +3,7 @@ module V1
     include Wor::Paginate
 
     def index
-      render_paginated Book.all
+      render_paginated Book
     end
 
     def show
