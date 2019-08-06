@@ -26,13 +26,6 @@ ActiveRecord::Schema.define(version: 2019_05_28_171337) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "playground", primary_key: "equip_id", id: :serial, force: :cascade do |t|
-    t.string "type", limit: 50, null: false
-    t.string "color", limit: 25, null: false
-    t.string "location", limit: 25
-    t.date "install_date"
-  end
-
   create_table "rents", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "book_id"
