@@ -7,7 +7,8 @@ module V1
     end
 
     def create
-      rent = Rent.create!(rent_params)
+      rent = Rent.new(rent_params)
+      rent.save!
       render json: rent, status: :created
     end
 
