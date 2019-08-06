@@ -59,7 +59,7 @@ describe V1::BooksController do
 
     context 'with an unexistent book' do
       include_context 'authenticated user'
-  
+
       it 'responds to bad parameters with status 400 (BAD REQUEST)' do
         expect { get :show, params: { id: nil } }
           .to raise_error(ActionController::UrlGenerationError)

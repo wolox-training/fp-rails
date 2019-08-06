@@ -1,7 +1,7 @@
 module V1
   class BooksController < ApiController
     include Wor::Paginate
-    rescue_from ActiveRecord::RecordInvalid, with: "No Vimo"
+    rescue_from ActiveRecord::RecordInvalid, with: NoVimo
 
     def index
       render_paginated Book
