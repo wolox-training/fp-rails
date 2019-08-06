@@ -2,67 +2,70 @@ require 'rails_helper'
 
 describe V1::BooksController do
   describe 'GET #index' do
+    subject(:http_request) { get :index }
+
+    let!(:books) { create_list(:book, 5) }
+
     context 'without authenticated user' do
-      subject!(:http_request) { get :index }
-
-      let!(:books) { create_list(:book, 5) }
-
       it 'responds with status 401 (UNAUTHORIZED)' do
-        expect(response).to have_http_status(:unauthorized)
+        expect(http_request).to have_http_status(:unauthorized)
       end
     end
 
     context 'When fetching all the books' do
       include_context 'authenticated user'
-      subject!(:books) { create_list(:book, 3) }
-
-      before do
-        get :index
-      end
 
       it 'responses with books json' do
         expected = ActiveModel::Serializer::CollectionSerializer.new(
           books, each_serializer: BookSerializer
         ).to_json
-        expect(response.body) =~ JSON.parse(expected)
+        expect(http_request.body) =~ JSON.parse(expected)
       end
 
       it 'responds with 200 status' do
-        expect(response).to have_http_status(:ok)
+        expect(http_request).to have_http_status(:ok)
       end
 
       it 'responds with pagination' do
-        expect(JSON.parse(response.body)['page']).not_to be_empty
+        expect(JSON.parse(http_request.body)['page']).not_to be_empty
       end
     end
   end
 
   describe 'GET #show' do
+    subject(:http_request) { get :show, params: { id: book_id } }
+    let!(:book) { create(:book) }
+
     context 'When fetching a book' do
       include_context 'authenticated user'
-      let!(:book) { create(:book) }
-
-      before do
-        get :show, params: { id: book.id }
-      end
+      let(:book_id) { book.id }
 
       it 'responses with the user rent json' do
-        expect(response.body).to eq BookSerializer.new(
+        expect(http_request.body).to eq BookSerializer.new(
           book, root: false
         ).to_json
       end
 
       it 'responds with 200 status' do
-        expect(response).to have_http_status(:ok)
+        expect(http_request).to have_http_status(:ok)
       end
     end
 
     context 'with an unexistent book' do
       include_context 'authenticated user'
+      let(:book_id) { Book.last.id + 1 }
+
+      it 'responds to bad parameters with status 404 (NOT FOUND)' do
+        expect(http_request).to have_http_status(:not_found)
+      end
+    end
+
+    context 'with an invalid book id' do
+      include_context 'authenticated user'
+      let(:book_id) { nil }
 
       it 'responds to bad parameters with status 400 (BAD REQUEST)' do
-        expect { get :show, params: { id: nil } }
-          .to raise_error(ActionController::UrlGenerationError)
+        expect(http_request).to have_http_status(:bad_request)
       end
     end
   end
