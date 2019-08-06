@@ -1,11 +1,20 @@
 require 'rails_helper'
 
 describe V1::BooksController do
-  include_context 'authenticated user'
-
   describe 'GET #index' do
+    context 'without authenticated user' do
+      subject!(:http_request) { get :index }
+
+      let!(:books) { create_list(:book, 5) }
+
+      it 'responds with status 401 (UNAUTHORIZED)' do
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
     context 'When fetching all the books' do
-      let!(:books) { create_list(:book, 3) }
+      include_context 'authenticated user'
+      subject!(:books) { create_list(:book, 3) }
 
       before do
         get :index
@@ -26,6 +35,7 @@ describe V1::BooksController do
 
   describe 'GET #show' do
     context 'When fetching a book' do
+      include_context 'authenticated user'
       let!(:book) { create(:book) }
 
       before do
