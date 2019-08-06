@@ -30,6 +30,10 @@ describe V1::BooksController do
       it 'responds with 200 status' do
         expect(response).to have_http_status(:ok)
       end
+
+      it 'responds with pagination' do
+        expect(JSON.parse(response.body)['page']).not_to be_empty
+      end
     end
   end
 
@@ -50,6 +54,15 @@ describe V1::BooksController do
 
       it 'responds with 200 status' do
         expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context 'with an unexistent book' do
+      include_context 'authenticated user'
+  
+      it 'responds to bad parameters with status 400 (BAD REQUEST)' do
+        expect { get :show, params: { id: nil } }
+          .to raise_error(ActionController::UrlGenerationError)
       end
     end
   end
