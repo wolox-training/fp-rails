@@ -3,7 +3,6 @@ class UserMailer < ApplicationMailer
 
   def notice_email(rent)
     @rent = rent
-    user = rent.user
     @book = rent.book
     mail(to: 'franco.perez@wolox.com.ar', subject: 'Rent Notification')
   end
