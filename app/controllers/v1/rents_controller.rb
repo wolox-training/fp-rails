@@ -9,6 +9,8 @@ module V1
     def create
       rent = Rent.new(rent_params)
       rent.save!
+      mail = UserMailer.notice_email(rent)
+      mail.deliver_later(wait: 1.second)
       render json: rent, status: :created
     end
 
