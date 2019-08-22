@@ -84,3 +84,12 @@ gem 'active_model_serializers', '~> 0.10.9'
 
 # Wor paginate
 gem 'wor-paginate', '~> 0.1.4'
+
+# Dotenv
+gem 'dotenv-rails', groups: [:development, :test]
+
+# Sidekiq
+gem 'sidekiq', '~> 5.2.5'
+
+# Some gem
+gem 'slim-rails', '~> 3.2.0'
