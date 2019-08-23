@@ -5,5 +5,6 @@ FactoryBot.define do
     sequence(:email) { |n| "#{n}-" + Faker::Internet.email }
     password { Faker::Internet.password }
     password_confirmation { password }
+    locale { 'en' }
   end
 end

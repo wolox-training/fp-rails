@@ -3,7 +3,10 @@ class UserMailer < ApplicationMailer
 
   def notice_email(rent)
     @rent = rent
+    user = rent.user
     @book = rent.book
-    mail(to: 'franco.perez@wolox.com.ar', subject: 'Rent Notification')
+    I18n.with_locale(user.locale) do
+      mail(to: 'franco.perez@wolox.com.ar', subject: 'No vimo')
+    end
   end
 end
